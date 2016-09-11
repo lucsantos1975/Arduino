@@ -8,11 +8,13 @@ const int mouth1Pin = 5;
 const int mouth2Pin = 6;
 const int mouth3Pin = 7;
 
+const int numberOfMouthLeds = 3;
+
+int mouthPins[numberOfMouthLeds];
+
 int buttonState = 0;
 int fraseCount = 0;
 int mouthCount = 0;
-
-int mouthPins[3];
 
 int frase0[] = {1100, 1100, 1400, 1800, 1100, 1400, 1100, 2400, 2200, 2800};
 int delay0[] = { 250,  250,  500,  650,  250,  100,  400,  700,  150,  400};
@@ -26,9 +28,11 @@ int delay2[] = { 500,  300,  700,  150,  250,  800,  200,  100};
 int frase3[] = {1200, 4000, 3800, 2800, 2000, 2800, 3000, 3400, 2400, 2400};
 int delay3[] = { 300,  100,  500,  200,  650,  200,  700,  200,  100,  500};
 
-int* frases[4];
-int* delays[4];
-int fraseSizes[4];
+const int numberOfFrases = 4;
+
+int* frases[numberOfFrases];
+int* delays[numberOfFrases];
+int fraseSizes[numberOfFrases];
 
 void setup() 
 {
@@ -63,30 +67,14 @@ void setup()
   fraseSizes[1] = sizeof(frase1) / sizeof(frase1[0]);
   fraseSizes[2] = sizeof(frase2) / sizeof(frase2[0]);
   fraseSizes[3] = sizeof(frase3) / sizeof(frase3[0]);
-  
-  //Serial.begin(9600);
 }
 
 void loop()
 {
     buttonState = digitalRead(buttonPin);
     
-    //Serial.print("buttonState: ");
-    //Serial.println(buttonState);
-    
-    //Serial.print("count: ");
-    //Serial.println(count);
-  
     if (buttonState == HIGH) {
       for (int i = 0; i < fraseSizes[fraseCount]; i++) {
-        //Serial.print("Frase size: ");
-        //Serial.println(frase_sizes[count]);
-        
-        //Serial.print("Tone / delay: ");
-        //Serial.print(frases[count][i]);
-        //Serial.print(" / ");
-        //Serial.println(delays[count][i]);
-        
         tone(buzzerPin, frases[fraseCount][i], delays[fraseCount][i]);
         digitalWrite(mouthPins[mouthCount], HIGH);
         
@@ -94,14 +82,14 @@ void loop()
         digitalWrite(mouthPins[mouthCount], LOW);
         mouthCount++;
         
-        if (mouthCount > 2) {
+        if (mouthCount >= numberOfMouthLeds) {
           mouthCount = 0;
         }
       }
       
       fraseCount++;
       
-      if (fraseCount > 3) {
+      if (fraseCount >= numberOfFrases) {
         fraseCount = 0;
       }
     }
