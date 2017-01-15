@@ -34,16 +34,16 @@ void loop() {
         lcd.setCursor(0, 0);
         lcd.print("Umid.:");
         lcd.setCursor(7, 0);
-        lcd.print(h);
+        lcd.print(h, 1);
         lcd.setCursor(15, 0);
         lcd.print("%");
 
         lcd.setCursor(0, 1);
         lcd.print("Temp.:");
         lcd.setCursor(7, 1);
-        lcd.print(t);
+        lcd.print(t, 1);
         lcd.setCursor(14, 1);
-        lcd.write(B11011111);
+        lcd.print((char)223);
         lcd.setCursor(15, 1);
         lcd.print("C");
     }
